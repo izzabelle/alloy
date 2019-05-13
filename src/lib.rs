@@ -1,55 +1,60 @@
 // namespacing
-use crate::metal::{Metal, MetalName};
+use crate::metal::{MetalSource, MetalUnits};
 
 /// tfc metal structs and constants
 #[allow(dead_code)]
 pub mod metal;
 
-struct Component {
-    name: MetalName,
-    quantity: u32,
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+struct Source {
+    source: MetalSource,
+    quantity: MetalUnits,
 }
 
 /// working alloy
+#[derive(Debug, Eq, PartialEq)]
 pub struct WorkingAlloy {
-    units: u32,
-    added: [Option<Vec<Component>>; 4],
-    percents: [Option<f32>; 4],
+    total_units: u32,
+    added: Vec<Source>,
+}
+
+impl std::ops::AddAssign<(Source)> for WorkingAlloy {
+    fn add_assign(&mut self, source: Source) {
+        self.added.push(source);
+        self.total_units += source.quantity as u32;
+    }
 }
 
 impl WorkingAlloy {
-    /// initialize the working alloy
     pub fn init() -> Self {
-        let units: u32 = 0;
-        let added: [Option<Vec<Component>>; 4] = [None, None, None, None];
-        let percents: [Option<f32>; 4] = [None, None, None, None];
-        WorkingAlloy {
-            units,
-            added,
-            percents,
-        }
+        let total_units: u32 = 0;
+        let added: Vec<Source> = Vec::new();
+        WorkingAlloy { total_units, added }
     }
+}
 
-    pub fn determine_metal(&self) -> &'static Metal {
-        let mut metal: &'static Metal = &Metal::METALS[MetalName::UnknownMetal as usize];
-        // if metal is completely empty just return unknown metal
-        if self.percents == [None, None, None, None] {
-            metal
-        } else {
-            Metal::metals_iter().enumerate().for_each(|m| {
-                // if metal only has one type of metal added return,that metal type
-                if let [Some(_), None, None, None] = self.percents {
-                    match &self.added[0] {
-                        Some(c) => {
-                            if m.1.name == c[0].name {
-                                metal = &m.1;
-                            }
-                        }
-                        None => {}
-                    }
-                }
-            });
-            metal
+#[cfg(test)]
+use crate::metal::MetalName;
+
+#[test]
+fn test_add() {
+    let mut working = WorkingAlloy::init();
+    working += Source {
+        source: MetalSource::Metal {
+            name: MetalName::Copper,
+        },
+        quantity: MetalUnits::Ingot,
+    };
+    assert_eq!(
+        working,
+        WorkingAlloy {
+            total_units: 100,
+            added: vec![Source {
+                source: MetalSource::Metal {
+                    name: MetalName::Copper
+                },
+                quantity: MetalUnits::Ingot
+            }]
         }
-    }
+    );
 }

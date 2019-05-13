@@ -1,6 +1,6 @@
 pub mod consts;
 
-#[derive(PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(usize)]
 pub enum MetalName {
     Bismuth = 0,
@@ -27,6 +27,7 @@ pub enum MetalName {
     UnknownMetal = 21,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum MetalSource {
     Bismuthinite,
     Cassiterite,
@@ -44,8 +45,10 @@ pub enum MetalSource {
     Limonite,
     Magnetite,
     PigIron,
+    Metal { name: MetalName },
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u32)]
 pub enum MetalUnits {
     OreSmall = 10,
@@ -55,11 +58,13 @@ pub enum MetalUnits {
     Ingot = 100,
 }
 
+#[derive(Debug)]
 pub struct Component {
     pub name: MetalName,
     pub range: (f32, f32),
 }
 
+#[derive(Debug)]
 pub enum MetalKind {
     Alloy {
         components: [Option<Component>; 4],
@@ -74,6 +79,7 @@ pub enum MetalKind {
     },
 }
 
+#[derive(Debug)]
 pub struct Metal {
     pub name: MetalName,
     pub kind: MetalKind,
