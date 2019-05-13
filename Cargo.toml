@@ -1,0 +1,7 @@
+[package]
+name = "alloy_calc"
+version = "0.1.0"
+authors = ["Izzy <izzy@lskh.io>"]
+edition = "2018"
+
+[dependencies]
