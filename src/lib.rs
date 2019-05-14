@@ -42,7 +42,6 @@ impl Source {
                 }
             }
         }
-        panic!("Metal does not exist, this should not happen");
     }
 }
 
