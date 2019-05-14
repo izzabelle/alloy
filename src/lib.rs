@@ -21,7 +21,7 @@ impl Source {
             _ => {
                 for metal in Metal::all_iter() {
                     match metal.kind.clone() {
-                        MetalKind::Metal { sources, units: _ } => {
+                        MetalKind::Metal { sources } => {
                             for source in sources.iter() {
                                 match source {
                                     Some(metal_source) => {
@@ -33,15 +33,13 @@ impl Source {
                                 }
                             }
                         }
-                        MetalKind::WroughtIron {
-                            source: _,
-                            units: _,
-                        } => return MetalName::WroughtIron,
+                        MetalKind::WroughtIron { source: _ } => return MetalName::WroughtIron,
                         MetalKind::Alloy { components: _ } => continue,
                     }
                 }
             }
         }
+        panic!("yeah this should not happen");
     }
 }
 
@@ -91,7 +89,9 @@ impl WorkingAlloy {
     /*/// returns a vec of metal names and their percentage of the alloy
     pub fn metal_percents(&self) -> Vec<(MetalName, f32)> {
         let mut percents: Vec<(MetalName, f32)> = Vec::new();
-        for (source, quantity) in self.added.iter() {}
+        for (source, quantity) in self.added.iter() {
+            let name = source.metal_name();
+        }
     }*/
 }
 
@@ -101,11 +101,17 @@ mod tests {
 
     #[test]
     fn test_source_to_metal() {
-        let source = Source {
+        let mut source = Source {
             source: MetalSource::NativeCopper,
             quantity: MetalUnits::OrePoor,
         };
         assert_eq!(MetalName::Copper, source.metal_name());
+        source.source = MetalSource::Metal {
+            name: MetalName::Gold,
+        };
+        assert_eq!(MetalName::Gold, source.metal_name());
+        source.source = MetalSource::Bloom;
+        assert_eq!(MetalName::WroughtIron, source.metal_name());
     }
 
 }

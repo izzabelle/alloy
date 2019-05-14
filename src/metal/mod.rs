@@ -71,17 +71,9 @@ pub struct Component {
 /// the type of metal and what it's comprised of
 #[derive(Debug, Clone)]
 pub enum MetalKind {
-    Alloy {
-        components: [Option<Component>; 4],
-    },
-    Metal {
-        sources: [Option<MetalSource>; 3],
-        units: [MetalUnits; 5],
-    },
-    WroughtIron {
-        source: MetalSource,
-        units: u32,
-    },
+    Alloy { components: [Option<Component>; 4] },
+    Metal { sources: [Option<MetalSource>; 3] },
+    WroughtIron { source: MetalSource },
 }
 
 /// a metal
