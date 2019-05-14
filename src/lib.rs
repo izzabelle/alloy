@@ -4,7 +4,6 @@ use std::collections::HashMap;
 use std::io::{Error, ErrorKind};
 
 /// TFC metal structs and constants
-#[allow(dead_code)]
 pub mod metal;
 
 /// source and quantity
@@ -87,14 +86,14 @@ impl WorkingAlloy {
     }
 
     /// returns a vec of metal names and their percentage of the alloy
-    pub fn metal_percents(&self) -> Vec<(MetalName, f32)> {
+    pub fn percents(&self) -> Vec<(MetalName, f32)> {
         let mut percents: Vec<(MetalName, f32)> = Vec::new();
         for (source, quantity) in self.added.iter() {
             let name = source.metal_name();
             let percent = (source.quantity as u32 * *quantity as u32) as f32
                 / self.total_units as f32
                 * 100.0;
-            percents.push((name, percent));
+            percents.push((name, percent.floor()));
         }
         percents
     }
@@ -121,4 +120,23 @@ mod tests {
         assert_eq!(MetalName::WroughtIron, source.metal_name());
     }
 
+    #[test]
+    fn test_metal_percents() {
+        let mut working = WorkingAlloy::init();
+        for _ in 0..10 {
+            working.add(&TEST_SOURCE);
+        }
+
+        let tin_source = Source {
+            source: MetalSource::Cassiterite,
+            quantity: MetalUnits::OreSmall,
+        };
+        for _ in 0..2 {
+            working.add(&tin_source);
+        }
+        let expected = vec![(MetalName::Tin, 16.0), (MetalName::Copper, 83.0)];
+        let calculated = working.percents();
+        assert_eq!(expected[0].0, calculated[1].0);
+        assert_eq!(expected[0].1, calculated[1].1);
+    }
 }
