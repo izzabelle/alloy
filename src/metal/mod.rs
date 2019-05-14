@@ -1,6 +1,7 @@
 pub mod consts;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// list of all metal names in TFC
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[repr(usize)]
 pub enum MetalName {
     Bismuth = 0,
@@ -27,7 +28,8 @@ pub enum MetalName {
     UnknownMetal = 21,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// source of metal ores/ingots
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum MetalSource {
     Bismuthinite,
     Cassiterite,
@@ -48,7 +50,8 @@ pub enum MetalSource {
     Metal { name: MetalName },
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// defines the quantity of units of metal from the different sources
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[repr(u32)]
 pub enum MetalUnits {
     OreSmall = 10,
@@ -58,19 +61,21 @@ pub enum MetalUnits {
     Ingot = 100,
 }
 
-#[derive(Debug)]
+/// a single component of an alloy and the range of the percentage that the alloy should be
+#[derive(Debug, Clone)]
 pub struct Component {
     pub name: MetalName,
     pub range: (f32, f32),
 }
 
-#[derive(Debug)]
+/// the type of metal and what it's comprised of
+#[derive(Debug, Clone)]
 pub enum MetalKind {
     Alloy {
         components: [Option<Component>; 4],
     },
     Metal {
-        source: [Option<MetalSource>; 3],
+        sources: [Option<MetalSource>; 3],
         units: [MetalUnits; 5],
     },
     WroughtIron {
@@ -79,6 +84,7 @@ pub enum MetalKind {
     },
 }
 
+/// a metal
 #[derive(Debug)]
 pub struct Metal {
     pub name: MetalName,
@@ -86,7 +92,8 @@ pub struct Metal {
 }
 
 impl Metal {
-    pub fn metals_iter() -> impl Iterator<Item = &'static Metal> {
+    /// returns and Iterator of all metals in TFC
+    pub fn all_iter() -> impl Iterator<Item = &'static Metal> {
         Metal::METALS.iter()
     }
 }

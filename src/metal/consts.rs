@@ -11,33 +11,33 @@ impl MetalUnits {
 }
 
 impl Metal {
-    /// const array of all TFC metals for iterating
+    /// const array of all TFC metals
     pub const METALS: [Metal; 22] = [
         Metal {
             name: MetalName::Bismuth,
             kind: MetalKind::Metal {
-                source: [Some(MetalSource::Bismuthinite), None, None],
+                sources: [Some(MetalSource::Bismuthinite), None, None],
                 units: MetalUnits::UNIT_TYPES,
             },
         },
         Metal {
             name: MetalName::Tin,
             kind: MetalKind::Metal {
-                source: [Some(MetalSource::Cassiterite), None, None],
+                sources: [Some(MetalSource::Cassiterite), None, None],
                 units: MetalUnits::UNIT_TYPES,
             },
         },
         Metal {
             name: MetalName::Zinc,
             kind: MetalKind::Metal {
-                source: [Some(MetalSource::Sphalerite), None, None],
+                sources: [Some(MetalSource::Sphalerite), None, None],
                 units: MetalUnits::UNIT_TYPES,
             },
         },
         Metal {
             name: MetalName::Copper,
             kind: MetalKind::Metal {
-                source: [
+                sources: [
                     Some(MetalSource::Malachite),
                     Some(MetalSource::NativeCopper),
                     Some(MetalSource::Tetrahedrite),
@@ -122,14 +122,14 @@ impl Metal {
         Metal {
             name: MetalName::Lead,
             kind: MetalKind::Metal {
-                source: [Some(MetalSource::Galena), None, None],
+                sources: [Some(MetalSource::Galena), None, None],
                 units: MetalUnits::UNIT_TYPES,
             },
         },
         Metal {
             name: MetalName::Gold,
             kind: MetalKind::Metal {
-                source: [Some(MetalSource::NativeGold), None, None],
+                sources: [Some(MetalSource::NativeGold), None, None],
                 units: MetalUnits::UNIT_TYPES,
             },
         },
@@ -153,7 +153,7 @@ impl Metal {
         Metal {
             name: MetalName::Silver,
             kind: MetalKind::Metal {
-                source: [Some(MetalSource::NativeSilver), None, None],
+                sources: [Some(MetalSource::NativeSilver), None, None],
                 units: MetalUnits::UNIT_TYPES,
             },
         },
@@ -177,7 +177,7 @@ impl Metal {
         Metal {
             name: MetalName::Platinum,
             kind: MetalKind::Metal {
-                source: [Some(MetalSource::NativePlatinum), None, None],
+                sources: [Some(MetalSource::NativePlatinum), None, None],
                 units: MetalUnits::UNIT_TYPES,
             },
         },
@@ -191,14 +191,14 @@ impl Metal {
         Metal {
             name: MetalName::Nickel,
             kind: MetalKind::Metal {
-                source: [Some(MetalSource::Garnierite), None, None],
+                sources: [Some(MetalSource::Garnierite), None, None],
                 units: MetalUnits::UNIT_TYPES,
             },
         },
         Metal {
             name: MetalName::PigIron,
             kind: MetalKind::Metal {
-                source: [
+                sources: [
                     Some(MetalSource::Hematite),
                     Some(MetalSource::Limonite),
                     Some(MetalSource::Limonite),
@@ -209,7 +209,7 @@ impl Metal {
         Metal {
             name: MetalName::Steel,
             kind: MetalKind::Metal {
-                source: [Some(MetalSource::PigIron), None, None],
+                sources: [Some(MetalSource::PigIron), None, None],
                 units: MetalUnits::UNIT_TYPES,
             },
         },
