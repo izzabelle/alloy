@@ -86,25 +86,32 @@ impl WorkingAlloy {
         }
     }
 
-    /*/// returns a vec of metal names and their percentage of the alloy
+    /// returns a vec of metal names and their percentage of the alloy
     pub fn metal_percents(&self) -> Vec<(MetalName, f32)> {
         let mut percents: Vec<(MetalName, f32)> = Vec::new();
         for (source, quantity) in self.added.iter() {
             let name = source.metal_name();
+            let percent = (source.quantity as u32 * *quantity as u32) as f32
+                / self.total_units as f32
+                * 100.0;
+            percents.push((name, percent));
         }
-    }*/
+        percents
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
+    const TEST_SOURCE: Source = Source {
+        source: MetalSource::NativeCopper,
+        quantity: MetalUnits::OreSmall,
+    };
+
     #[test]
     fn test_source_to_metal() {
-        let mut source = Source {
-            source: MetalSource::NativeCopper,
-            quantity: MetalUnits::OrePoor,
-        };
+        let mut source = TEST_SOURCE.clone();
         assert_eq!(MetalName::Copper, source.metal_name());
         source.source = MetalSource::Metal {
             name: MetalName::Gold,
